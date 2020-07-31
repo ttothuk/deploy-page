@@ -7,12 +7,14 @@ router.get('/new', (req, res) => {
 });
 
 router.get('/edit/:id', async (req, res) => {
-    const article = await Article.findById(req.params.id);
+    const article = await Article.findById(req.params.id).catch((e) => { console.error(e); process.exit(1) })
+    console.log('edit.');
     res.render('articles/edit', { article: article });
 });
 
 router.get('/:slug', async (req, res) => {
-    const article = await Article.findOne({ slug: req.params.slug })
+    const article = await Article.findOne({ slug: req.params.slug }).catch((e) => { console.error(e); process.exit(1) })
+    console.log('slug');
     if (article == null) res.redirect('/');
     res.render('articles/show', { article: article })
 })
@@ -23,7 +25,8 @@ router.post('/', async (req, res, next) => {
 }, saveArticleAndRedirect('new'));
 
 router.put('/:id', async (req, res, next) => {
-    req.article = await Article.findById(req.params.id)
+    req.article = await Article.findById(req.params.id).catch((e) => { console.error(e); process.exit(1) })
+    console.log('id');
     next();
 }, saveArticleAndRedirect('edit'));
 
@@ -31,7 +34,8 @@ router.put('/:id', async (req, res, next) => {
 
 method = "GET/POST"
 router.delete('/:id', async (req, res) => {
-    await Article.findByIdAndDelete(req.params.id);
+    await Article.findByIdAndDelete(req.params.id).catch((e) => { console.error(e); process.exit(1) })
+    console.log('id2');
     res.redirect('/');
 })
 

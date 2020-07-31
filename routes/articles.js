@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Article = require('./../models/article');
 
+/*
+
 router.get('/new', (req, res) => {
     res.render('articles/new', { article: new Article() });
 });
@@ -19,10 +21,14 @@ router.get('/:slug', async (req, res) => {
     res.render('articles/show', { article: article })
 })
 
+*/
+
 router.post('/', async (req, res, next) => {
     req.article = new Article();
     next();
 }, saveArticleAndRedirect('new'));
+
+/*
 
 router.put('/:id', async (req, res, next) => {
     req.article = await Article.findById(req.params.id).catch((e) => { console.error(e); process.exit(1) })
@@ -38,6 +44,8 @@ router.delete('/:id', async (req, res) => {
     console.log('id2');
     res.redirect('/');
 })
+
+*/
 
 function saveArticleAndRedirect(path) {
     return async (req, res) => {
